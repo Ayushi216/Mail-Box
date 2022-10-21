@@ -1,0 +1,32 @@
+.header {
+    background-color: blueviolet;
+    padding: 20px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-style: italic;
+    display: flex;
+}
+
+.div {
+    display: flex;
+    margin-top: 20px;
+}
+
+.mail {
+    margin-left: 150px;
+    
+    
+}
+
+.subject {
+    padding-left: 150px;
+}
+
+.list{
+    list-style: none;
+    margin-left: 10px;
+    margin-top: 20px;
+    padding-left: 30px;
+    padding-top: 10px;
+    background-color: rgb(227, 245, 245);
+    height: 10cm;
+}

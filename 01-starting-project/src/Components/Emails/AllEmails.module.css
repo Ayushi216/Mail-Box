@@ -1,0 +1,17 @@
+.list {
+    list-style: none;
+    padding-bottom: 30px;
+}
+
+.from {
+    border: 3px solid black;
+    width: 20cm;
+    margin-left: 90px;
+    padding-left: 10px;
+    text-align: left;
+    background-color: antiquewhite;
+    color: black;
+    border-radius: 4px;
+    box-shadow: 2px;
+    word-spacing: 65px;
+}
