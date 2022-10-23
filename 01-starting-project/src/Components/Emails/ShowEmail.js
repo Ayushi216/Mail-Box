@@ -8,15 +8,13 @@ const ShowEmails = (props) => {
     <ul>
       {showEmails.map((item) => (
         <AllEmails
-        
           item={{
-           
             id: item.id,
+            body: item.body,
             from: item.from,
             subject: item.subject,
-            
+            read: item.read,
           }}
-          
         />
       ))}
     </ul>

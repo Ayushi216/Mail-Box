@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import classes from "./AuthForm.module.css";
 
 import { authActions } from "../../store/auth-slice";
+import { emailActions } from "../../store/email-slice";
 
 const AuthForm = () => {
 
@@ -81,9 +82,11 @@ const AuthForm = () => {
       .then((data) => {
         
         dispatch(authActions.login(data.idToken));
-        localStorage.setItem("email", enteredEmail)
+        localStorage.setItem("email", enteredEmail);
+        let email = localStorage.getItem("email").replace(".", "").replace("@", "");
+        dispatch(emailActions.setEmail(email));
         console.log("User has successfully logged in")
-        history.replace('/welcome');
+        history.replace('/welcome/inbox');
       })
       .catch((err) => {
         alert(err.message);
