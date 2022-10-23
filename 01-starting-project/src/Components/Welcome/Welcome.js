@@ -1,13 +1,15 @@
 import React, { Fragment } from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 import { authActions } from "../../store/auth-slice";
+import { emailActions } from "../../store/email-slice";
 import ShowEmails from "../Emails/ShowEmail";
 import classes from "./Welcome.module.css";
 
 const Welcome = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const unreadCount = useSelector((state) => state.email.unread)
 
   
   const composeHandler = () => {
@@ -17,6 +19,7 @@ const Welcome = () => {
 
   const logoutHandler = () => {
     dispatch(authActions.logout());
+    dispatch(emailActions.remove());
     history.replace('/')
   }
   return (
@@ -29,8 +32,12 @@ const Welcome = () => {
         <div>
           <button onClick={composeHandler}>Compose Mail</button>
           <li className={classes.list}>
-            <p>Inbox</p>
-            <p>Unread</p>
+            <Link to={"/welcome/inbox"}>
+            <p>Inbox ({unreadCount} unread Emails)</p>
+            </Link>
+            <Link to={"/welcome/sent"}>
+            <p>Sent</p>
+            </Link>
             <p>Deleted</p>
           </li>
         </div>

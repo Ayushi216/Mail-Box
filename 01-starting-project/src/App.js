@@ -8,16 +8,20 @@ import EditorComponent from './Components/ComposeMail/ComposeMail';
 
 import './App.css';
 import { emailActions } from './store/email-slice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 function App() {
 
-  let email = localStorage.getItem("email").replace(".", "").replace("@", "");
+  const email = useSelector((state) => state.email.email)
   const dispatch = useDispatch();
 
   
   useEffect(() => {
+
+    if (!email) return;
+    console.log("before fetch", email);
+
     fetch(
       `https://mail-box-7af32-default-rtdb.firebaseio.com/${email}.json`,
       {
@@ -45,9 +49,15 @@ function App() {
         <Route path="/" exact>
           <AuthForm />
         </Route>
-        <Route path='/welcome'>
+
+        <Route path='/welcome/:id'>
           <Welcome />
         </Route>
+        <Route path='/welcome/inbox'>
+          <Welcome />
+        </Route>
+
+       
         <Route path = '/composeMail'>
           <EditorComponent />
         </Route>
