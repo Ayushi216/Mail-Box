@@ -3,24 +3,23 @@ import { createSlice } from "@reduxjs/toolkit";
 const emailSlice = createSlice({
   name: "email",
   initialState: {
-    emails: [],
+    recievedEmails: [],
     sentEmails: [],
     unread: 0,
     email:
       localStorage.getItem("email")?.replace(".", "")?.replace("@", "") || ""
   },
   reducers: {
-    sentEmail(state, action) {
+    recievedEmail(state, action) {
       const newEmail = action.payload;
 
-      state.emails.push({
+      state.recievedEmails.push({
         id: newEmail.id,
         from: newEmail.from,
         subject: newEmail.subject,
         body: newEmail.body,
         read: newEmail.read,
       });
-      state.unread = state.unread + 1;
     },
 
     sentBox(state, action) {
@@ -35,8 +34,11 @@ const emailSlice = createSlice({
       });
 
     },
-
-    unreadEmails(state) {
+    increaseUnreadEmails(state) {
+      state.unread = state.unread + 1 ;
+    
+    },
+    reduceUnreadEmails(state) {
       if(state.unread>0){
         state.unread = state.unread - 1;
       }
@@ -45,9 +47,9 @@ const emailSlice = createSlice({
 
     removeEmail(state, action) {
       const id = action.payload;
-      const existingEmail = state.emails.find((item) => item.id === id);
+      const existingEmail = state.recievedEmails.find((item) => item.id === id);
       if (existingEmail) {
-        state.emails = state.emails.filter((item) => item.id !== id);
+        state.recievedEmails = state.recievedEmails.filter((item) => item.id !== id);
         
       }
     },
@@ -60,6 +62,11 @@ const emailSlice = createSlice({
 
     remove(state) {
       state.email = "";
+    },
+
+    resetRecievedEmails(state) {
+      state.recievedEmails = [];
+      state.unread= 0;
     }
   },
 });

@@ -20,9 +20,9 @@ const AllEmails = (props) => {
   const readEmailHandler = () => {
     setStatus(true);
     setReading(true);
-    dispatch(emailActions.unreadEmails());
+    dispatch(emailActions.reduceUnreadEmails());
 
-    fetch (`https://mail-box-7af32-default-rtdb.firebaseio.com/${email}/${id}.json`, {
+    fetch (`https://mail-box-7af32-default-rtdb.firebaseio.com/recieved/${email}/${id}.json`, {
       method:'PATCH',
       headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ 
@@ -38,7 +38,7 @@ const AllEmails = (props) => {
 
   const deleteEmailHandler = () => {
     fetch(
-      `https://mail-box-7af32-default-rtdb.firebaseio.com/${email}/${id}.json`,
+      `https://mail-box-7af32-default-rtdb.firebaseio.com/recieved/${email}/${id}.json`,
       {
         method: "DELETE",
       }

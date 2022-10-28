@@ -26,20 +26,20 @@ const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
     async function emailSubmitHandler (event) {
         event.preventDefault();
 
-        const email = emailInputRef.current.value;
+        const emailReciever = emailInputRef.current.value;
         const enteredSubject = subjectInputRef.current.value;
         const body = convertToRaw(editorState.getCurrentContent()).blocks[0].text;
-        let recieverEmail = email.replace(".", "").replace("@", "");
+        let recieverEmail = emailReciever.replace(".", "").replace("@", "");
         let senderEmail = localStorage.getItem('email');
-
+        const emailSender = senderEmail.replace(".", "").replace("@", "");
         const objSent = {
-          to: email,
+          to: emailReciever,
           subject: enteredSubject,
           body: body,
           
          }
 
-       const obj = {
+       const objRecieved = {
         from: senderEmail,
         subject: enteredSubject,
         body: body,
@@ -47,11 +47,11 @@ const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
        }
 
         fetch(
-            `https://mail-box-7af32-default-rtdb.firebaseio.com/${recieverEmail}.json`,
+            `https://mail-box-7af32-default-rtdb.firebaseio.com/recieved/${recieverEmail}.json`,
             {
               method: "POST",
               body: JSON.stringify({
-                ...obj,
+                ...objRecieved,
               }),
               headers: {
                 "Content-type": "application/json",
@@ -60,20 +60,21 @@ const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
           ).then(async (res) => {
             const data = await res.json();
             dispatch(
-              emailActions.sentEmail({
+              emailActions.recievedEmail({
                 id: data.name,
-                from: obj.from,
-                subject: obj.subject,
-                body: obj.body,
-                read: obj.read,
+                from: objRecieved.from,
+                subject: objRecieved.subject,
+                body: objRecieved.body,
+                read: objRecieved.read,
                 
               })
             )
+            
           })
 
 
           fetch(
-            `https://mail-box-7af32-default-rtdb.firebaseio.com/sent/${senderEmail}.json`,
+            `https://mail-box-7af32-default-rtdb.firebaseio.com/sent/${emailSender}.json`,
             {
               method: "POST",
               body: JSON.stringify({
@@ -98,6 +99,7 @@ const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
           })
 
         alert("Sent successfully")  
+        //window.location.reload(false);
     }
 
   return (

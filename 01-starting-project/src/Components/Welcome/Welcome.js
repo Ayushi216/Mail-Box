@@ -21,6 +21,7 @@ const Welcome = () => {
     dispatch(authActions.logout());
     dispatch(emailActions.remove());
     history.replace('/')
+    
   }
   return (
     <Fragment>
