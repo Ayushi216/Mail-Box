@@ -87,6 +87,7 @@ const AuthForm = () => {
         dispatch(emailActions.setEmail(email));
         console.log("User has successfully logged in")
         history.replace('/welcome/inbox');
+        
       })
       .catch((err) => {
         alert(err.message);
