@@ -70,6 +70,7 @@ const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
               })
             )
             
+            
           })
 
 
@@ -89,7 +90,7 @@ const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
             dispatch(
               emailActions.sentBox({
                 id: data.name,
-                to: objSent.from,
+                to: objSent.to,
                 subject: objSent.subject,
                 body: objSent.body,
                
@@ -99,7 +100,7 @@ const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
           })
 
         alert("Sent successfully")  
-        //window.location.reload(false);
+       
     }
 
   return (

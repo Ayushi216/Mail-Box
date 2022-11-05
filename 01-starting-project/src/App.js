@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 function App() {
 
   const email = useSelector((state) => state.email.email)
+ 
   const dispatch = useDispatch();
 
   
@@ -43,6 +44,34 @@ function App() {
         console.log(error);
       });
   }, [dispatch, email]);
+
+
+  useEffect(() => {
+    
+
+    if (!email) return;
+
+    fetch(
+      `https://mail-box-7af32-default-rtdb.firebaseio.com/sent/${email}.json`,
+      {
+        method: "GET",
+      }
+    )
+      .then(async (res) => {
+        const data = await res.json();
+        for (const key in data) {
+          const item = data[key];
+          item.id = key;
+          dispatch(emailActions.sentBox(item));
+          
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [dispatch, email]);
+
+  
 
   setInterval(() => {
     fetch(

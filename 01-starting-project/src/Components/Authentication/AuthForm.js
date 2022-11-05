@@ -85,8 +85,10 @@ const AuthForm = () => {
         localStorage.setItem("email", enteredEmail);
         let email = localStorage.getItem("email").replace(".", "").replace("@", "");
         dispatch(emailActions.setEmail(email));
+        
         console.log("User has successfully logged in")
         history.replace('/welcome/inbox');
+       window.location.reload(false);
         
       })
       .catch((err) => {

@@ -20,6 +20,8 @@ const emailSlice = createSlice({
         body: newEmail.body,
         read: newEmail.read,
       });
+
+   
     },
 
     sentBox(state, action) {
@@ -32,6 +34,8 @@ const emailSlice = createSlice({
         body: sentEmail.body,
        
       });
+
+
 
     },
     increaseUnreadEmails(state) {

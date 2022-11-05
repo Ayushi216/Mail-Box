@@ -9,6 +9,9 @@ import { useParams } from "react-router-dom";
 
 const AllEmails = (props) => {
   const { from, subject, id, body, read } = props.item;
+ //const {to, sentSubject, sentbody } = props.email;
+
+
 
   const [status, setStatus] = useState(false);
   const [reading, setReading] = useState(false);
@@ -88,41 +91,7 @@ const AllEmails = (props) => {
         </Modal>
       )}
 
-{params.id === 'sent' && 
-      <li className={classes.list} key={Math.random()}>
-        <button className={classes.from} onClick={readEmailHandler}>
-          {from} 
-        </button>
 
-        <button className={classes.delete}onClick={deleteEmailHandler}> Delete </button>
-      
-      </li>}
-      {reading && (
-        <Modal>
-          <div className={classes.div}>
-          <div>
-          <span>From: </span>
-          <span> {from} </span>
-          </div>
-
-          <div className={classes.subject}>
-            <span>Subject: </span>
-            <span>{subject}</span>
-          </div>
-
-          <div className={classes.body}>
-            {body}
-          </div>
-         
-
-          <div className={classes.close}>
-            
-            <button onClick={closeEmailHandler}> Close</button>
-          </div>
-
-          </div>
-        </Modal>
-      )}
       
 
     </Fragment>

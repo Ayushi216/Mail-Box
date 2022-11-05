@@ -3,12 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { authActions } from "../../store/auth-slice";
 import { emailActions } from "../../store/email-slice";
+import { useParams } from "react-router-dom";
+
 import ShowEmails from "../Emails/ShowEmail";
 import classes from "./Welcome.module.css";
+import SentEmails from "../Emails/SentEmail";
+//import SentEmails from "../Emails/SentEmail";
 
 const Welcome = () => {
+
+  const params = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
+
   const unreadCount = useSelector((state) => state.email.unread)
 
   
@@ -50,7 +57,10 @@ const Welcome = () => {
           <th className={classes.subject}>Subject</th>
 
         </table>
-        <ShowEmails />
+        {params.id === 'inbox' && <ShowEmails />}
+        {params.id === 'sent' && <SentEmails />}
+        
+        
         </div>
 
         
