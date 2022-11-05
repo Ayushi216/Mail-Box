@@ -9,6 +9,9 @@ import { useParams } from "react-router-dom";
 
 const AllEmails = (props) => {
   const { from, subject, id, body, read } = props.item;
+ //const {to, sentSubject, sentbody } = props.email;
+
+
 
   const [status, setStatus] = useState(false);
   const [reading, setReading] = useState(false);
@@ -20,9 +23,9 @@ const AllEmails = (props) => {
   const readEmailHandler = () => {
     setStatus(true);
     setReading(true);
-    dispatch(emailActions.unreadEmails());
+    dispatch(emailActions.reduceUnreadEmails());
 
-    fetch (`https://mail-box-7af32-default-rtdb.firebaseio.com/${email}/${id}.json`, {
+    fetch (`https://mail-box-7af32-default-rtdb.firebaseio.com/recieved/${email}/${id}.json`, {
       method:'PATCH',
       headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ 
@@ -38,7 +41,7 @@ const AllEmails = (props) => {
 
   const deleteEmailHandler = () => {
     fetch(
-      `https://mail-box-7af32-default-rtdb.firebaseio.com/${email}/${id}.json`,
+      `https://mail-box-7af32-default-rtdb.firebaseio.com/recieved/${email}/${id}.json`,
       {
         method: "DELETE",
       }
@@ -88,41 +91,7 @@ const AllEmails = (props) => {
         </Modal>
       )}
 
-{params.id === 'sent' && 
-      <li className={classes.list} key={Math.random()}>
-        <button className={classes.from} onClick={readEmailHandler}>
-          {from} 
-        </button>
 
-        <button className={classes.delete}onClick={deleteEmailHandler}> Delete </button>
-      
-      </li>}
-      {reading && (
-        <Modal>
-          <div className={classes.div}>
-          <div>
-          <span>From: </span>
-          <span> {from} </span>
-          </div>
-
-          <div className={classes.subject}>
-            <span>Subject: </span>
-            <span>{subject}</span>
-          </div>
-
-          <div className={classes.body}>
-            {body}
-          </div>
-         
-
-          <div className={classes.close}>
-            
-            <button onClick={closeEmailHandler}> Close</button>
-          </div>
-
-          </div>
-        </Modal>
-      )}
       
 
     </Fragment>

@@ -14,16 +14,17 @@ import { useDispatch, useSelector } from 'react-redux';
 function App() {
 
   const email = useSelector((state) => state.email.email)
+ 
   const dispatch = useDispatch();
 
   
   useEffect(() => {
+    
 
     if (!email) return;
-    console.log("before fetch", email);
 
     fetch(
-      `https://mail-box-7af32-default-rtdb.firebaseio.com/${email}.json`,
+      `https://mail-box-7af32-default-rtdb.firebaseio.com/recieved/${email}.json`,
       {
         method: "GET",
       }
@@ -33,14 +34,70 @@ function App() {
         for (const key in data) {
           const item = data[key];
           item.id = key;
-          dispatch(emailActions.sentEmail(item));
+          dispatch(emailActions.recievedEmail(item));
+          if(!item.read){
+            dispatch(emailActions.increaseUnreadEmails());
+          }
         }
       })
       .catch((error) => {
-        alert(error);
+        console.log(error);
       });
   }, [dispatch, email]);
 
+
+  useEffect(() => {
+    
+
+    if (!email) return;
+
+    fetch(
+      `https://mail-box-7af32-default-rtdb.firebaseio.com/sent/${email}.json`,
+      {
+        method: "GET",
+      }
+    )
+      .then(async (res) => {
+        const data = await res.json();
+        for (const key in data) {
+          const item = data[key];
+          item.id = key;
+          dispatch(emailActions.sentBox(item));
+          
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [dispatch, email]);
+
+  
+
+  setInterval(() => {
+    fetch(
+      `https://mail-box-7af32-default-rtdb.firebaseio.com/recieved/${email}.json`,
+      {
+        method: "GET",
+      }
+    )
+      .then(async (res) => {
+        dispatch(emailActions.resetRecievedEmails());
+        const data = await res.json();
+        for (const key in data) {
+          const item = data[key];
+          item.id = key;
+          
+          dispatch(emailActions.recievedEmail(item));
+          if(!item.read){
+            dispatch(emailActions.increaseUnreadEmails());
+          }
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },5000);
+  
   
 
   return (

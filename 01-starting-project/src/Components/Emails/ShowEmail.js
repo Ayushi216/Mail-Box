@@ -3,7 +3,8 @@ import { useSelector } from "react-redux";
 import AllEmails from "./AllEmails";
 
 const ShowEmails = (props) => {
-  const showEmails = useSelector((state) => state.email.emails);
+  const showEmails = useSelector((state) => state.email.recievedEmails);
+
   return (
     <ul>
       {showEmails.map((item) => (
